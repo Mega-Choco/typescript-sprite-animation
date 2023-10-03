@@ -56,14 +56,12 @@ export class AnimationManager {
     }
 
     public update() {
-        var nowAnim = this.animations[this.currentAnimationIndex];
+        let nowAnim = this.animations[this.currentAnimationIndex];
         if(nowAnim.waitFrame <= this.currentWaitFrameCount){
             if(this.currentSequenceCount >= this.currentEndFrame - 1){
                 
                 if(this.loopedOnece == false){
                     if(nowAnim.loopInfo != null){
-                        console.log('루프 포인트 기준으로 재설정됨!');
-                        console.log(`[info] start = ${nowAnim.loopInfo.start}, end = ${nowAnim.loopInfo.end}`);
                         this.currentStartFrame = nowAnim.loopInfo.start;
                         this.currentEndFrame = nowAnim.loopInfo.end;
                     }
@@ -84,9 +82,6 @@ export class AnimationManager {
     }
 
     private updateDarawInfo(){
-        //console.log(`seq: ${this.currentSequenceCount}, x offset: ${ this.animations[this.currentAnimationIndex].offsetX +
-        //    (this.animations[this.currentAnimationIndex].width * this.currentSequenceCount)}`);
-
         this.animationDrawInfo.width =this.animations[this.currentAnimationIndex].width;
         this.animationDrawInfo.height = this.animations[this.currentAnimationIndex].height;
         
@@ -100,20 +95,21 @@ export class AnimationManager {
     }
 
     public changeAnimation(name: string) {
-        var index = this.animations.findIndex(ani => ani.name === name);
+        let index = this.animations.findIndex(ani => ani.name === name);
+    
+        if(name === this.animations[this.currentAnimationIndex].name){
+            return;
+        }
+
         if (index === -1) {
-            console.error(`no animation name of [${name}]`);
             return;
         }
-        if (index == this.currentAnimationIndex) {
-            return;
-        }
+        
         this.currentAnimationIndex = index;
         this.resetAnimationRunner();
         this.updateDarawInfo();
     }
     private resetAnimationRunner(){
-        console.log('animation runner resetted');
         this.currentWaitFrameCount = 0;
         this.currentSequenceCount = 0;
         this.currentStartFrame = 0;

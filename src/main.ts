@@ -18,9 +18,9 @@ class Object {
   }
 
   public update(deltaTime: number) {
-    var currentAnimTriggerName : string = 'middle';
-    var movePosX = 0;
-    var movePosY= 0;
+    let currentAnimTriggerName : string = 'middle';
+    let movePosX = 0;
+    let movePosY= 0;
     if(pressedKeys['up'] == true){
       this.position.y -= this.speed * deltaTime;
       movePosY = (this.speed * deltaTime) * -1;
@@ -70,16 +70,16 @@ let _fpsInterval: number = 0;
 let _canvas: HTMLCanvasElement;
 let _ctx: CanvasRenderingContext2D | null;
 
-let objects: Object[] = [];
+const objects: Object[] = [];
 
-let keyMap: { [key: number]: string } = {
+const keyMap: { [key: number]: string } = {
   39: 'right',
   37: 'left',
   38: 'up',
   40: 'down'
 };
 
-let pressedKeys: { [key: string]: boolean } = {
+const pressedKeys: { [key: string]: boolean } = {
   'left': false,
   'right': false,
   'up': false,
@@ -116,8 +116,10 @@ function loop(): void {
     update();
     draw();
     requestAnimationFrame(loop);
+    return;
   }
   requestAnimationFrame(loop);
+  return;
 }
 
 function update(): void {
@@ -134,11 +136,11 @@ function draw(): void {
 }
 
 function keydown(event: KeyboardEvent) {
-  var key = keyMap[event.keyCode]
+  let key = keyMap[event.keyCode]
   pressedKeys[key] = true
 }
 function keyup(event: KeyboardEvent) {
-  var key = keyMap[event.keyCode]
+  let key = keyMap[event.keyCode]
   pressedKeys[key] = false
 }
 
@@ -146,20 +148,17 @@ window.addEventListener("keydown", keydown, false)
 window.addEventListener("keyup", keyup, false);
 
 function setupDemoData(){
-   var char: Object = new Object('controllerable_reimu');
-   var anims: Animation[] = [
+   let char: Object = new Object('controllerable_reimu');
+   let anims: Animation[] = [
     new Animation('middle', 0,0,32,48,8,5, null),
     new Animation('left', 0,48,32,48,8,5, new AnimationLoopPoint(4,8)),
     new Animation('right', 0,96,32,48,8,5, new AnimationLoopPoint(4,8)),
    ]
-   var spriteSheetImage = new Image();
+   let spriteSheetImage = new Image();
    spriteSheetImage.src = '../assets/images/hakurei_reimu.png';
-   var animManager : AnimationManager = new AnimationManager(anims, spriteSheetImage);
+   let animManager : AnimationManager = new AnimationManager(anims, spriteSheetImage);
    char.animationManager = animManager;
    objects.push(char);
 }
 
 start();
-//./images/hakurei_reimu.png
-
-
